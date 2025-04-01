@@ -36,7 +36,7 @@ class Message(BaseModel):
     tool_call_id: Optional[str] = Field(default=None)
 
     def __add__(self, other) -> List["Message"]:
-        """支持 Message + list 或 Message + Message 的操作"""
+        """Supports operations like Message + list or Message + Message"""
         if isinstance(other, list):
             return [self] + other
         elif isinstance(other, Message):
@@ -45,16 +45,15 @@ class Message(BaseModel):
             raise TypeError(
                 f"unsupported operand type(s) for +: '{type(self).__name__}' and '{type(other).__name__}'"
             )
-
     def __radd__(self, other) -> List["Message"]:
-        """支持 list + Message 的操作"""
+        """Supports operations like list + Message"""
         if isinstance(other, list):
             return other + [self]
         else:
             raise TypeError(
                 f"unsupported operand type(s) for +: '{type(other).__name__}' and '{type(self).__name__}'"
             )
-
+        
     def to_dict(self) -> dict:
         """Convert message to dictionary format"""
         message = {"role": self.role}

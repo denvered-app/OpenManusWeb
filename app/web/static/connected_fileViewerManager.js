@@ -1,5 +1,4 @@
-// connected_fileViewerManager.js - 处理文件内容查看
-
+// connected_fileViewerManager.js - Manages file content viewing
 export class FileViewerManager {
     constructor() {
         this.fileViewer = document.getElementById('file-viewer');
@@ -8,53 +7,47 @@ export class FileViewerManager {
         this.closeButton = document.getElementById('close-file-viewer');
     }
 
-    // 初始化文件查看器
+    // Initialize file viewer
     init() {
-        // 初始隐藏文件查看器
+        // Initially hide file viewer
         this.hideFileViewer();
-
-        // 绑定关闭按钮事件
+        // Bind close button event
         this.closeButton.addEventListener('click', () => {
             this.hideFileViewer();
         });
     }
 
-    // 显示文件内容
+    // Show file content
     showFile(name, content) {
-        // 设置文件名
+        // Set file name
         this.fileName.textContent = name;
-
-        // 设置文件内容，根据文件类型进行格式化
+        // Set file content, format based on file type
         const formattedContent = this.formatCode(content, this.getFileType(name));
         this.fileContent.textContent = formattedContent;
-
-        // 根据文件类型设置语法高亮
+        // Apply syntax highlighting based on file type
         this.applySyntaxHighlighting(name);
-
-        // 显示文件查看器
+        // Show file viewer
         this.fileViewer.style.display = 'block';
     }
 
-    // 隐藏文件查看器
+    // Hide file viewer
     hideFileViewer() {
         this.fileViewer.style.display = 'none';
     }
 
-    // 获取文件类型
+    // Get file type
     getFileType(fileName) {
         const extension = fileName.split('.').pop().toLowerCase();
         return extension;
     }
 
-    // 应用语法高亮
+    // Apply syntax highlighting
     applySyntaxHighlighting(fileName) {
-        // 获取文件扩展名
+        // Get file extension
         const extension = this.getFileType(fileName);
-
-        // 根据文件类型设置类名
+        // Set base class name
         this.fileContent.className = 'file-content';
-
-        // 添加语言特定的类名
+        // Add language-specific class name
         switch (extension) {
             case 'html':
                 this.fileContent.classList.add('language-html');
@@ -78,24 +71,21 @@ export class FileViewerManager {
                 this.fileContent.classList.add('language-plaintext');
                 break;
         }
-
-        // 如果有Prism.js，触发语法高亮
+        // If Prism.js is available, trigger syntax highlighting
         if (window.Prism) {
             window.Prism.highlightElement(this.fileContent);
         }
     }
 
-    // 格式化代码
+    // Format code
     formatCode(code, language) {
-        // 简单的代码格式化，可以根据需要扩展
+        // Simple code formatting, can be extended as needed
         if (!code) return '';
-
-        // 对HTML进行简单的格式化
+        // Simple formatting for HTML
         if (language === 'html') {
             return this.formatHTML(code);
         }
-
-        // 对JSON进行格式化
+        // Format JSON
         if (language === 'json') {
             try {
                 const obj = JSON.parse(code);
@@ -104,43 +94,37 @@ export class FileViewerManager {
                 return code;
             }
         }
-
         return code;
     }
 
-    // 格式化HTML
+    // Format HTML
     formatHTML(html) {
-        // 简单的HTML格式化
+        // Simple HTML formatting
         let formatted = '';
         let indent = 0;
-
-        // 将HTML标签分割成数组
+        // Split HTML tags into array
         const tags = html.split(/(<\/?[^>]+>)/g);
-
         for (let i = 0; i < tags.length; i++) {
             const tag = tags[i];
-
-            // 如果是关闭标签，减少缩进
+            // If closing tag, decrease indent
             if (tag.match(/^<\//)) {
                 indent--;
             }
-
-            // 添加适当的缩进
+            // Add appropriate indentation
             if (tag.match(/^</) && !tag.match(/^<\//) && !tag.match(/\/>/)) {
-                formatted += '  '.repeat(indent) + tag + '\n';
+                formatted += ' '.repeat(indent) + tag + '\n';
                 indent++;
             } else if (tag.match(/^</) && tag.match(/\/>/)) {
-                // 自闭合标签
-                formatted += '  '.repeat(indent) + tag + '\n';
+                // Self-closing tag
+                formatted += ' '.repeat(indent) + tag + '\n';
             } else if (tag.match(/^<\//)) {
-                // 关闭标签
-                formatted += '  '.repeat(indent) + tag + '\n';
+                // Closing tag
+                formatted += ' '.repeat(indent) + tag + '\n';
             } else if (tag.trim() !== '') {
-                // 文本内容
-                formatted += '  '.repeat(indent) + tag + '\n';
+                // Text content
+                formatted += ' '.repeat(indent) + tag + '\n';
             }
         }
-
         return formatted;
     }
 }
