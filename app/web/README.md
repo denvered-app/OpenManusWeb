@@ -1,124 +1,125 @@
-# OpenManus Web 应用
+# OpenManus Web Application
 
-这是OpenManus项目的Web界面部分，提供了一个友好的用户界面，让用户可以直接在浏览器中与OpenManus AI助手进行交互。
+This is the web interface for the OpenManus project, providing a friendly user interface that allows users to interact with the OpenManus AI assistant directly in their browser.
 
-![OpenManus Web界面](../assets/interface.png)
+![OpenManus Web Interface](../assets/interface.png)
 
-## 主要特性
+## Key Features
 
-- 🌐 现代化Web界面，支持实时通信
-- 💬 直观的聊天界面，可以提问并获得AI回答
-- 🧠 可视化思考过程，展示AI思考的每一步
-- 📁 工作区文件管理，查看和管理AI生成的文件
-- 📊 详细的日志跟踪和监控
-- 🚀 支持中断和停止正在处理的请求
+- 🌐 Modern web interface with real-time communication
+- 💬 Intuitive chat interface for asking questions and getting AI responses
+- 🧠 Visualization of thinking process, showing each step of AI reasoning
+- 📁 Workspace file management to view and manage AI-generated files
+- 📊 Detailed log tracking and monitoring
+- 🚀 Support for interrupting and stopping ongoing requests
 
-## 技术栈
+## Tech Stack
 
-- **后端**: FastAPI, Python, WebSocket
-- **前端**: HTML, CSS, JavaScript
-- **通信**: WebSocket实时通信
-- **存储**: 文件系统存储生成的文件和日志
+- **Backend**: FastAPI, Python, WebSocket
+- **Frontend**: HTML, CSS, JavaScript
+- **Communication**: WebSocket real-time communication
+- **Storage**: File system for generated files and logs
 
-## 快速开始
+## Quick Start
 
-1. 确保已安装所有依赖:
+1. Make sure all dependencies are installed:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. 启动Web服务器:
+2. Start the web server:
 
 ```bash
 python web_run.py
 ```
 
-或者从项目根目录:
+Or from the project root:
 
 ```bash
 python main.py --web
 ```
 
-3. 打开浏览器访问: http://localhost:8000
+3. Open your browser and visit: http://localhost:8000
 
-## 项目结构
+## Project Structure
 
 ```
 app/web/
-├── app.py               # Web应用主入口，FastAPI应用实例
-├── log_handler.py       # 日志处理模块
-├── log_parser.py        # 日志解析器
-├── thinking_tracker.py  # 思考过程跟踪器
-├── static/              # 静态资源文件夹(JS, CSS)
-│   ├── connected_interface.html # 主要界面HTML
-│   ├── connected_interface.js   # 主要界面JavaScript
-│   └── ...                      # 其他静态资源
-└── templates/           # Jinja2模板文件夹
+├── app.py               # Web app main entry, FastAPI instance
+├── log_handler.py       # Log handling module
+├── log_parser.py        # Log parser
+├── thinking_tracker.py  # Thinking process tracker
+├── static/              # Static assets folder (JS, CSS)
+│   ├── connected_interface.html # Main interface HTML
+│   ├── connected_interface.js   # Main interface JavaScript
+│   └── ...                      # Other static assets
+└── templates/           # Jinja2 templates folder
 ```
 
-## API端点
+## API Endpoints
 
-### 聊天相关
+### Chat Related
 
-- `POST /api/chat` - 创建新的聊天会话
-- `GET /api/chat/{session_id}` - 获取特定会话的结果
-- `POST /api/chat/{session_id}/stop` - 停止特定会话的处理
-- `WebSocket /ws/{session_id}` - 与会话建立WebSocket连接
+- `POST /api/chat` - Create new chat session
+- `GET /api/chat/{session_id}` - Get results for specific session
+- `POST /api/chat/{session_id}/stop` - Stop processing for specific session
+- `WebSocket /ws/{session_id}` - Establish WebSocket connection for session
 
-### 文件相关
+### File Related
 
-- `GET /api/files` - 获取所有工作区目录和文件
-- `GET /api/files/{file_path}` - 获取特定文件的内容
+- `GET /api/files` - Get all workspace directories and files
+- `GET /api/files/{file_path}` - Get content of specific file
 
-### 日志相关
+### Log Related
 
-- `GET /api/logs` - 获取系统日志列表
-- `GET /api/logs/{log_name}` - 获取特定日志文件内容
-- `GET /api/logs_parsed` - 获取解析后的日志信息列表
-- `GET /api/logs_parsed/{log_name}` - 获取特定日志文件的解析信息
-- `GET /api/latest_log` - 获取最新日志文件的解析信息
-- `GET /api/systemlogs/{session_id}` - 获取指定会话的系统日志
+- `GET /api/logs` - Get system log list
+- `GET /api/logs/{log_name}` - Get specific log file content
+- `GET /api/logs_parsed` - Get list of parsed log info
+- `GET /api/logs_parsed/{log_name}` - Get parsed info for specific log file
+- `GET /api/latest_log` - Get parsed info for latest log file
+- `GET /api/systemlogs/{session_id}` - Get system logs for specific session
 
-### 思考过程
+### Thinking Process
 
-- `GET /api/thinking/{session_id}` - 获取特定会话的思考步骤
-- `GET /api/progress/{session_id}` - 获取特定会话的进度信息
+- `GET /api/thinking/{session_id}` - Get thinking steps for specific session
+- `GET /api/progress/{session_id}` - Get progress info for specific session
 
-## 界面说明
+## Interface Overview
 
-OpenManus Web界面分为两个主要部分:
+The OpenManus Web interface is divided into two main parts:
 
-1. **左侧面板** - 显示AI思考过程和工作区文件
-   - AI思考时间线：显示AI处理过程中的每个步骤
-   - 工作区文件：显示AI生成的文件，可以点击查看内容
+1. **Left Panel** - Shows AI thinking process and workspace files
+   - AI timeline: Displays each step in AI processing
+   - Workspace files: Shows AI-generated files, clickable for content
 
-2. **右侧面板** - 对话界面
-   - 对话历史：显示用户和AI之间的对话
-   - 输入区域：用户可以输入问题或指令
+2. **Right Panel** - Chat interface
+   - Chat history: Shows user and AI conversation
+   - Input area: Users can type questions or commands
 
-## 本地开发
+## Local Development
 
-1. 克隆仓库
-2. 安装依赖
-3. 在开发模式启动应用:
+1. Clone the repository
+2. Install dependencies
+3. Start the app in development mode:
 
 ```bash
 uvicorn app.web.app:app --reload
 ```
-或者
+or
 ```bash
 python web_run.py
 ```
 
-## 贡献
+## Contributing
 
-欢迎贡献代码、报告问题或提出改进建议。请创建Issue或提交Pull Request。
+Contributions are welcome! Feel free to contribute code, report issues, or suggest improvements. Please create an Issue or submit a Pull Request.
 
-## 许可证
+## License
 
-本项目使用[开源许可证]，详见项目根目录的LICENSE文件。
+This project is under an [open source license], see LICENSE file in project root for details.
 
-## 技术支持
+## Support
 
-如有问题或需要帮助，请创建GitHub Issue。
+For questions or help, please create a GitHub Issue.
+
